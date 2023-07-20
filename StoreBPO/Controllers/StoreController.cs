@@ -12,7 +12,7 @@ using StoreBPO.Models;
 namespace StoreBPO.Controllers
 {
     [ApiController]
-    [Route("Stores")]
+    [Route("Store")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class StoreController : Controller
     {
@@ -29,7 +29,7 @@ namespace StoreBPO.Controllers
         {
             return _context.Stores != null ?
                         Ok(await _context.Stores.ToListAsync()) :
-                        Ok("No Stores found!") ;
+                        Ok("No Stores found!");
         }
 
         // GET: Stores/Details/5
@@ -54,18 +54,18 @@ namespace StoreBPO.Controllers
 
         // POST: Stores/Create
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("StoreName")] Store Store)
+        public async Task<IActionResult> Create([Bind("StoreName")] VMStore Store)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(Store);
+                _context.Add(new Store() { StoreName = Store.StoreName });
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(null,Store);
+                return CreatedAtAction(null, Store);
             }
             return BadRequest("Database is not ready, please try again in a few minutes");
         }
 
-      
+
         // PUT: Stores/Edit/5
         [HttpPut]
         public async Task<IActionResult> Edit(int id, [Bind("StoreId,StoreName")] Store Store)
@@ -115,14 +115,14 @@ namespace StoreBPO.Controllers
             {
                 return NotFound("Store not found!");
             }
-            
+
             await _context.SaveChangesAsync();
             return Ok("Store deleted!");
         }
 
         private bool StoreExists(int id)
         {
-          return (_context.Stores?.Any(e => e.StoreID == id)).GetValueOrDefault();
+            return (_context.Stores?.Any(e => e.StoreID == id)).GetValueOrDefault();
         }
     }
 }

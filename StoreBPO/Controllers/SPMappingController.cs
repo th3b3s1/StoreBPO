@@ -54,7 +54,7 @@ namespace StoreBPO.Controllers
 
         // POST: StoreProductMapping/Create
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("StoreID,ProductID,Stock")] StoreProductMapping StoreProductMapping)
+        public async Task<IActionResult> Create([Bind("StoreID,ProductID,Stock")] VMStoreProductMapping StoreProductMapping)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace StoreBPO.Controllers
                 {
                     if (!StoreExists(StoreProductMapping.MappingID))
                     {
-                        return NotFound();
+                        return NotFound("StoreProductMapping not found!");
                     }
                     else
                     {
