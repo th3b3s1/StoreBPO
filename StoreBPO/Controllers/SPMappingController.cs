@@ -29,7 +29,7 @@ namespace StoreBPO.Controllers
         {
             return _context.Mappings != null ?
                         Ok(await _context.Mappings.ToListAsync()) :
-                        Ok("No StoreProductMapping found!") ;
+                        Ok("No StoreProductMapping found!");
         }
 
         // GET: StoreProductMapping/Details/5
@@ -58,14 +58,19 @@ namespace StoreBPO.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(StoreProductMapping);
+                _context.Add(new StoreProductMapping()
+                {
+                    StoreID = StoreProductMapping.StoreID,
+                    ProductID = StoreProductMapping.ProductID,
+                    Stock = StoreProductMapping.Stock,
+                });
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(null,StoreProductMapping);
+                return CreatedAtAction(null, StoreProductMapping);
             }
             return BadRequest("Database is not ready, please try again in a few minutes");
         }
 
-      
+
         // PUT: StoreProductMapping/Edit/5
         [HttpPut]
         public async Task<IActionResult> Edit(int id, [Bind("StoreID,ProductID,Stock")] StoreProductMapping StoreProductMapping)
@@ -115,14 +120,14 @@ namespace StoreBPO.Controllers
             {
                 return NotFound("StoreProductMapping not found!");
             }
-            
+
             await _context.SaveChangesAsync();
             return Ok("StoreProductMapping deleted!");
         }
 
         private bool StoreExists(int id)
         {
-          return (_context.Mappings?.Any(e => e.MappingID == id)).GetValueOrDefault();
+            return (_context.Mappings?.Any(e => e.MappingID == id)).GetValueOrDefault();
         }
     }
 }

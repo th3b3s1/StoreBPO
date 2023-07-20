@@ -17,7 +17,7 @@ namespace StoreBPO.Models
         [Required]
         public int Stock { get; set; }
 
-        public VMStore? Store { get; set; }
+        public Store? Store { get; set; }
         public Product? Product { get; set; }
     }
 }
